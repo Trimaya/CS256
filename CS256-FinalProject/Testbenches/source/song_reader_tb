@@ -1,0 +1,60 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/25/2024 05:15:01 AM
+// Design Name: 
+// Module Name: song_reader_tb
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module song_reader_tb(
+
+    );
+    
+    logic clk;
+    logic rst;
+    logic [3:0] main_note_idx;
+    logic [3:0] bass_note_idx;
+
+    // Instantiate the UUT
+    song_reader uut (
+        .clk(clk),
+        .reset(rst),
+        .main_note_idx(main_note_idx),
+        .bass_note_idx(bass_note_idx),
+        .track(1)
+    );
+
+    // Generate 25.6 MHz clock
+    initial begin
+        clk = 0;
+        forever #1 clk = ~clk; // 25.6 MHz period = 39.0625 ns
+    end
+
+    // Generate reset
+    initial begin
+        rst = 1'b1;
+        #100;  // Hold reset for 100 ns
+        rst = 1'b0;
+    end
+
+    // Stop simulation after some time
+    initial begin
+        #4s; // Run simulation for 100 µs
+        $stop;
+    end
+    
+endmodule

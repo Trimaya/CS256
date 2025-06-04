@@ -1,0 +1,87 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/09/2024 02:11:43 AM
+// Design Name: 
+// Module Name: drawcon_tb
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+module drawcon_tb;
+
+    // Inputs
+    logic [10:0] blkpos_x;
+    logic [9:0] blkpos_y;
+    logic [10:0] draw_x;
+    logic [9:0] draw_y;
+    logic clk;
+    logic rst;
+
+    // Outputs
+    logic [3:0] draw_r;
+    logic [3:0] draw_g;
+    logic [3:0] draw_b;
+
+    // Internal signals
+    parameter START_X = 25;
+    parameter END_X = 70;
+    parameter START_Y = 25;
+    parameter END_Y = 70;
+
+    logic [10:0] current_x;
+    logic [9:0] current_y;
+
+    // Instantiate the Unit Under Test (UUT)
+    drawcon uut (
+        .blkpos_x(blkpos_x),
+        .blkpos_y(blkpos_y),
+        .draw_x(current_x),
+        .draw_y(current_y),
+        .draw_r(draw_r),
+        .draw_g(draw_g),
+        .draw_b(draw_b),
+        .clk(clk),
+        .rst(rst)
+    );
+    initial
+    begin
+    $display("Start of Sim");
+    clk = 1'b0; rst = 1'b1;
+    #10 rst = 1'b0;
+    
+    // Initialize block position
+    blkpos_x = 11'd32; // Tank's x-position
+    blkpos_y = 10'd32; // Tank's y-position
+    
+    // Initialize starting coordinates
+    current_x = START_X;
+    current_y = START_Y;
+
+
+    #400000 $finish;
+    end
+    always #5 clk = ~clk;
+
+    // Coordinate cycling logic
+    always @(posedge clk) begin
+        if (current_y <= END_Y) begin
+            if (current_x < END_X) begin
+                current_x <= current_x + 1; // Increment X
+            end else begin
+                current_x <= START_X; // Reset X
+                current_y <= current_y + 1; // Increment Y
+            end
+        end
+    end
+endmodule

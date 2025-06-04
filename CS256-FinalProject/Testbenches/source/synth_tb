@@ -1,0 +1,55 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/25/2024 02:15:34 PM
+// Design Name: 
+// Module Name: synth_tb
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module synth_tb;
+    logic clk;
+    logic reset;
+    logic pwm_out;
+    logic [15:0] freq;
+    assign freq[15:0] = 16'd880;
+    // Instantiate the DUT
+    sawtooth_synth uut (
+        .reset(reset),
+        .pwm_out(pwm_out),
+        .note_freq(freq),
+        .clk25(clk)
+    );
+
+    // Generate 100 MHz clock
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; // 100 Mhz period
+    end
+
+    // Generate reset
+    initial begin
+        reset = 1'b1;
+        #100;  // Hold reset for 100 ns
+        reset = 1'b0;
+    end
+
+    // Stop simulation after some time
+    initial begin
+        #1s; // Run simulation for 100 µs
+        $stop;
+    end
+endmodule

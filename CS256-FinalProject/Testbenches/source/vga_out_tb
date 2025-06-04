@@ -1,0 +1,55 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/03/2024 07:37:09 PM
+// Design Name: 
+// Module Name: vga_out_tb
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module vga_out_tb();
+    logic clk, rst;
+    logic hsync, vsync;
+    logic [3:0]pix_r;
+    logic [3:0]pix_g;
+    logic [3:0]pix_b;
+    logic [15:0] SW;
+    logic [10:0] curr_x;
+    logic [9:0] curr_y;
+    assign SW = 16'b1000100010000000;
+    
+    vga_out uut (
+                 .clk(clk),
+                 .rst(rst),
+                 //.SW(SW),
+                 .pix_r(pix_r), 
+                 .pix_g(pix_g), 
+                 .pix_b(pix_b), 
+                 .hsync(hsync), 
+                 .vsync(vsync),
+                 .curr_x(curr_x), 
+                 .curr_y(curr_y) 
+                );
+    initial begin
+        $display("Start of Sim");
+        clk = 1'b0; rst = 1'b1;
+        #10 rst = 1'b0;
+        #25ms $finish;
+    end
+    always begin
+        #5 clk = ~clk;
+    end
+endmodule
