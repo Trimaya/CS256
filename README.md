@@ -32,7 +32,7 @@ Generates real-time game music with:
 - `song_reader.sv`
 - `sawtooth_synth.sv`
 
-### ⌨Controls  
+### Controls  
 Full PS/2 keyboard support with debounced inputs. Players can move, shoot, and interact using keyboard and board switches.
 
 ## Testing
